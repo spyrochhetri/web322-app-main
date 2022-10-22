@@ -102,6 +102,7 @@ app.get("/", (req, res) => {
 });
 
 
+
  // Adding POST routes
 app.post('/posts/add', upload.single("featureImage"), (req, res) => {
   if(req.file){
