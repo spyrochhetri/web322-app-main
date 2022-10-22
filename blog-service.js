@@ -1,6 +1,8 @@
 var fs = require("fs");
-var posts = {};
-var categories = [];
+var path = require("path");
+let posts = [];
+let categories = [];
+
 
 module.exports.initialize = function () {
   return new Promise(function (resolve, reject) {
@@ -66,3 +68,50 @@ module.exports.getCategories = function () {
     resolve(c_categories);
   });
 };
+
+// Add post
+function addPost(postData){
+  return new Promise((resolve, reject) => {
+      if(postData.published === undefined) {
+          postData.published = false;
+      } else postData.published = true;
+
+      postData.id = posts.length + 1;
+
+      posts.push(postData);
+
+      resolve(postData);
+  })
+}
+
+
+
+function getPostsByCategory (category){
+  return new Promise((resolve, reject) => {
+      const categoryPosts = posts.filter((post) => {
+          return post.category == category;
+      })
+
+      categoryPosts.length > 0 ? resolve(categoryPosts) : reject("no results returned");
+  })
+}
+
+function getPostsByMinDate (minDateStr){
+  return new Promise((resolve, reject) => {
+      const minDatePosts = posts.filter((post) => {
+          return new Date(post.postDate) >= new Date(minDateStr);
+      })
+
+      minDatePosts.length > 0 ? resolve(minDatePosts) : reject("no results returned");
+  })
+}
+
+function getPostById (id){
+  return new Promise((resolve, reject) => {
+      const idPosts = posts.filter((post) => {
+          return post.id == id;
+      })
+
+      idPosts.length > 0 ? resolve(idPosts) : reject("no results returned");
+  })
+}
