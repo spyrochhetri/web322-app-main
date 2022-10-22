@@ -73,7 +73,7 @@ app.get("/", (req, res) => {
  });
  
  app.get('/post/:value', (req, res) => {
-  service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+ service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
  //GET POSTS
  app.get("data/posts", function (req, res) {
