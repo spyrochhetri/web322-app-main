@@ -6,7 +6,7 @@
 * 
 *  Name:Jahanvi Jitendra Randhejiya Student ID:159298215 Date: 3rd october, 2022
 *
-*  Cyclic Web App URL: https://delightful-bear-bathing-suit.cyclic.app/
+*  Cyclic Web App URL: ---------------
 *
 *  GitHub Repository URL: https://github.com/Jahanvi220104/web322-app.git
 *
@@ -14,20 +14,20 @@
  var express = require("express");
  var app = express();
  var path = require("path");
- var blogService = require ('./blog-service.js')
+ var blogService = require ('./blog-service')
 
  var HTTP_PORT = process.env.PORT || 8080;
 
  //libraries
 const multer = require("multer");
-const cloudinary= require('cloudinary').v2
+const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
 
 cloudinary.config({
-  cloud_name: 'dgbjmbkxr',
-  api_key: '764431573664668',
-  api_secret: 'iKg_pblVfzbodEHRFHfZQOwSl1w',
-  secure: true
+    cloud_name: 'dga12xwb2',
+    api_key: '694932861513843',
+    api_secret: '8kE3Cp8pA7PAe4RzWO4ICj9jO1Y',
+    secure: true
 });
 
 //upload variable
@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
 });
 
  app.get("/about", function (req, res) {
-   res.sendFile(path.join(__dirname, "/views/about.html"));
+   res.sendFile(path.join(__dirname, "views/about.html"));
  });
 
 //BLOGS
@@ -101,7 +101,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/views/addPost.html"));
 });
 
- app.listen(HTTP_PORT, onHttpStart)
 
  // Adding POST routes
 app.post('/posts/add', upload.single("featureImage"), (req, res) => {
