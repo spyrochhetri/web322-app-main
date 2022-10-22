@@ -14,20 +14,20 @@
  var express = require("express");
  var app = express();
  var path = require("path");
- var blogService = require ('./blog-service.js')
+ var blogService = require ('./blog-service')
 
  var HTTP_PORT = process.env.PORT || 8080;
 
  //libraries
 const multer = require("multer");
-const cloudinary= require('cloudinary').v2
+const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
 
 cloudinary.config({
-  cloud_name: 'dgbjmbkxr',
-  api_key: '764431573664668',
-  api_secret: 'iKg_pblVfzbodEHRFHfZQOwSl1w',
-  secure: true
+    cloud_name: 'dga12xwb2',
+    api_key: '694932861513843',
+    api_secret: '8kE3Cp8pA7PAe4RzWO4ICj9jO1Y',
+    secure: true
 });
 
 //upload variable
@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
 });
 
  app.get("/about", function (req, res) {
-   res.sendFile(path.join(__dirname, "/views/about.html"));
+   res.sendFile(path.join(__dirname, "views/about.html"));
  });
 
 //BLOGS
@@ -72,6 +72,9 @@ app.get("/", (req, res) => {
      });
  });
  
+ app.get('/post/:value', (req, res) => {
+  service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+})
  //GET POSTS
  app.get("/posts", function (req, res) {
    data
@@ -97,11 +100,11 @@ app.get("/", (req, res) => {
  });
  
  //GET /POST/ADD
- app.get("/", function (req, res) {
+ app.get("/posts/add", function (req, res) {
   res.sendFile(path.join(__dirname, "/views/addPost.html"));
 });
 
- app.listen(HTTP_PORT, onHttpStart)
+
 
  // Adding POST routes
 app.post('/posts/add', upload.single("featureImage"), (req, res) => {
