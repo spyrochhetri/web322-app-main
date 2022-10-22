@@ -61,7 +61,7 @@ app.get("/", (req, res) => {
  });
 
 //BLOGS
- app.get("/blog", function (req, res) {
+ app.get("data/blog", function (req, res) {
    data
      .getPublishedPosts()
      .then(function (data) {
@@ -76,7 +76,7 @@ app.get("/", (req, res) => {
   service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
  //GET POSTS
- app.get("data/posts.json", function (req, res) {
+ app.get("data/posts", function (req, res) {
    data
      .getAllPosts()
      .then(function (data) {
@@ -88,7 +88,7 @@ app.get("/", (req, res) => {
  });
  
  //GET CATEGORIES
- app.get("/data/categories.json", function (req, res) {
+ app.get("/data/categories", function (req, res) {
    data
      .getCategories()
      .then(function (data) {
