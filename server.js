@@ -61,7 +61,7 @@ app.get("/", (req, res) => {
  });
 
 //BLOGS
- app.get("data/blog", function (req, res) {
+ app.get("blog-service", function (req, res) {
    data
      .getPublishedPosts()
      .then(function (data) {
@@ -101,7 +101,7 @@ app.get("/", (req, res) => {
  
  //GET /POST/ADD
  app.get("/posts/add", function (req, res) {
-  res.sendFile(path.join(__dirname, "/views/addPost.html"));
+  res.sendFile(path.join(__dirname, "views/addPost.html"));
 });
 
 
