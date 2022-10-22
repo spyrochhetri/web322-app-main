@@ -11,12 +11,12 @@
 *  GitHub Repository URL: https://github.com/Jahanvi220104/web322-app.git
 *updated now
 ********************************************************************************/ 
- var express = require("express");
- var app = express();
- var path = require("path");
- var blogService = require ('./blog-service')
+const express = require('express');
+const path = require('path');
+const service = require('./blog-service');
+const app = express();
 
- var HTTP_PORT = process.env.PORT || 8080;
+const HTTP_PORT = process.env.PORT || 8080;
 
  //libraries
 const multer = require("multer");
@@ -76,7 +76,7 @@ app.get("/", (req, res) => {
   service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
  //GET POSTS
- app.get("posts", function (req, res) {
+ app.get("data/posts", function (req, res) {
    data
      .getAllPosts()
      .then(function (data) {
@@ -88,7 +88,7 @@ app.get("/", (req, res) => {
  });
  
  //GET CATEGORIES
- app.get("categories", function (req, res) {
+ app.get("data/categories", function (req, res) {
    data
      .getCategories()
      .then(function (data) {
