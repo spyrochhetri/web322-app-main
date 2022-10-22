@@ -9,7 +9,7 @@
 *  Cyclic Web App URL: ---------------
 *
 *  GitHub Repository URL: https://github.com/Jahanvi220104/web322-app.git
-*updated
+*
 ********************************************************************************/ 
  var express = require("express");
  var app = express();
@@ -72,6 +72,9 @@ app.get("/", (req, res) => {
      });
  });
  
+ app.get('/post/:value', (req, res) => {
+  service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+})
  //GET POSTS
  app.get("/posts", function (req, res) {
    data
@@ -97,7 +100,7 @@ app.get("/", (req, res) => {
  });
  
  //GET /POST/ADD
- app.get("/", function (req, res) {
+ app.get("/posts/add", function (req, res) {
   res.sendFile(path.join(__dirname, "/views/addPost.html"));
 });
 
