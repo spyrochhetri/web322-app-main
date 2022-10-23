@@ -133,10 +133,11 @@ app.post('/posts/add', upload.single("featureImage"), (req, res) => {
 app.use(function (req, res) {
  res.status(404).sendFile(path.join(__dirname, "Page Not Found"));
 });
-blogService.initialize().then(() =>{
- app.listen(HTTP_PORT, () => {
-     console.log('Express HTTP server is listening to the port', HTTP_PORT)
- })
-}).catch(() => {
- console.log('Error: Server not started')
+
+blogData.initialize().then(()=>{
+  app.listen(HTTP_PORT, () => { 
+      console.log('server listening on: ' + HTTP_PORT); 
+  });
+}).catch((err)=>{
+  console.log(err);
 })
