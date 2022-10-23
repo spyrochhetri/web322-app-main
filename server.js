@@ -1,4 +1,3 @@
-
  /*********************************************************************************
 *  WEB322 – Assignment 02
 *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part 
@@ -28,97 +27,133 @@ const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
 
 cloudinary.config({
-   cloud_name: 'dga12xwb2',
-   api_key: '694932861513843',
-   api_secret: '8kE3Cp8pA7PAe4RzWO4ICj9jO1Y',
+   cloud_name: 'dgbjmbkxr',
+   api_key: '764431573664668',
+   api_secret: 'iKg_pblVfzbodEHRFHfZQOwSl1w',
    secure: true
 });
 //upload variable
 const upload = multer();
 
+// GET ABOUT
 app.get('/', (req, res) => {
-    res.redirect('/about');
-})
+  res.redirect("/about");
+});
 
+//about
 app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views/about.html'));
-})
+  res.sendFile(path.join(__dirname, "/views/about.html"))
+});
 
-
-
-app.get('/blog-service', (req, res) => {
-    service.getPublishedPosts().then(data => res.json(data)).catch(err => res.json(err));
-})
+//blog
+app.get('/blog', (req,res)=>{
+  blogData.getPublishedPosts().then((data=>{
+      res.json(data);
+  })).catch(err=>{
+      res.json({message: err});
+  });
+});
 
 app.get('/post/:value', (req, res) => {
-    service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  blogData.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
 
 app.get('/posts', (req, res) => {
-    if (req.query.category) {
-        service.getPostsByCategory(req.query.category).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
-    } else if (req.query.minDate) {
-        service.getPostsByMinDate(req.query.minDate).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
-    } else {
-        service.getAllPosts().then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
-    }
+  if (req.query.category) {
+      blogData.getPostsByCategory(req.query.category).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  } else if (req.query.minDate) {
+      blogData.getPostsByMinDate(req.query.minDate).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  } else {
+      blogData.getAllPosts().then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  }
 })
 
+//GET POSTS
+app.get('/posts', (req,res)=>{
+  blogData.getAllPosts().then((data=>{
+      res.json(data);
+  })).catch(err=>{
+      res.json({message: err});
+  });
+});
+
+app.get('/posts', (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/about.html"))
+});
+
+//GET CATEGORIES
+app.get('/categories', (req,res)=>{
+  blogData.getCategories().then((data=>{
+      res.json(data);
+  })).catch(err=>{
+      res.json({message: err});
+  });
+});
 
 
-app.get('/categories', (req, res) => {
-    service.getCategories().then(data => res.json(data)).catch(err => res.json(err));
-})
-
+//GET /POST/ADD
 app.get('/posts/add', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views/addPost.html'));
+  res.sendFile(path.join(__dirname, 'views/addPost.html'));
 })
+
 
 // Adding POST routes
 app.post('/posts/add', upload.single("featureImage"), (req, res) => {
-    if(req.file){
-        let streamUpload = (req) => {
-            return new Promise((resolve, reject) => {
-                let stream = cloudinary.uploader.upload_stream(
-                    (error, result) => {
-                        if (result) {
-                            resolve(result);
-                        } else {
-                            reject(error);
-                        }
-                    }
-                );
-    
-                streamifier.createReadStream(req.file.buffer).pipe(stream);
-            });
-        };
-    
-        async function upload(req) {
-            let result = await streamUpload(req);
-            console.log(result);
-            return result;
-        }
-    
-        upload(req).then((uploaded)=>{
-            processPost(uploaded.url);
-        });
-    } else {
-        processPost("");
-    }
+  if(req.file){
+      let streamUpload = (req) => {
+          return new Promise((resolve, reject) => {
+              let stream = cloudinary.uploader.upload_stream(
+                  (error, result) => {
+                      if (result) {
+                          resolve(result);
+                      } else {
+                          reject(error);
+                      }
+                  }
+              );
+  
+              streamifier.createReadStream(req.file.buffer).pipe(stream);
+          });
+      };
+  
+      async function upload(req) {
+          let result = await streamUpload(req);
+          console.log(result);
+          return result;
+      }
+  
+      upload(req).then((uploaded)=>{
+          processPost(uploaded.url);
+      });
+  } else {
+      processPost("");
+  }
 
-    function processPost(imageUrl){
-        req.body.featureImage = imageUrl;
+  function processPost(imageUrl){
+      req.body.featureImage = imageUrl;
 
-        const postData = {
-            "body": req.body.body,
-            "title": req.body.title,
-            "postDate": new Date().toISOString().split('T')[0],
-            "category": req.body.category,
-            "featureImage": imageUrl,
-            "published": req.body.published,
-        }
+      const postData = {
+          "body": req.body.body,
+          "title": req.body.title,
+          "postDate": new Date().toISOString().split('T')[0],
+          "category": req.body.category,
+          "featureImage": imageUrl,
+          "published": req.body.published,
+      }
 
-        service.addPost(postData).then(data => res.redirect('/posts')).catch(err => res.json(`message: ${err}`));
-    }
+      blogData.addPost(postData).then(data => res.redirect('/posts')).catch(err => res.json(`message: ${err}`));
+  }
 
+})
+//ERROR
+app.use(function (req, res) {
+ res.status(404).sendFile(path.join(__dirname, "Page Not Found"));
+});
+
+blogData.initialize().then(()=>{
+  app.listen(HTTP_PORT, () => { 
+      console.log('server listening on: ' + HTTP_PORT); 
+  });
+}).catch((err)=>{
+  console.log(err);
 })
