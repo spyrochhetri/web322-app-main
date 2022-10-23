@@ -11,29 +11,30 @@
 *  GitHub Repository URL: https://github.com/Jahanvi220104/web322-app.git
 *updated now
 ********************************************************************************/ 
+
 const express = require('express');
-const service = require("./blog-service");
-const path = require("path");
-const app = express();
+const path = require('path');
+const service = require('./blog-service');
 
-
-const HTTP_PORT = process.env.PORT || 8080;
-
-app.use(express.static('public'));
-
-//libraries
 const multer = require("multer");
 const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
 
 cloudinary.config({
-   cloud_name: 'dga12xwb2',
-   api_key: '694932861513843',
-   api_secret: '8kE3Cp8pA7PAe4RzWO4ICj9jO1Y',
-   secure: true
+  cloud_name: 'dga12xwb2',
+  api_key: '694932861513843',
+  api_secret: '8kE3Cp8pA7PAe4RzWO4ICj9jO1Y',
+  secure: true
 });
-//upload variable
-const upload = multer();
+
+const upload = multer(); // no { storage: storage } since we are not using disk storage
+
+
+const app = express();
+
+const port = process.env.port || 8080;
+
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.redirect('/about');
