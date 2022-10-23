@@ -11,11 +11,15 @@
 *  GitHub Repository URL: https://github.com/Jahanvi220104/web322-app.git
 *updated now
 ********************************************************************************/ 
-var express = require("express");
-var app = express();
-var path = require("path");
-var blogService = require ('./blog-service')
-var HTTP_PORT = process.env.PORT || 8080;
+const express = require('express');
+const blogData = require("./blog-service");
+const path = require("path");
+const app = express();
+
+const HTTP_PORT = process.env.PORT || 8080;
+
+app.use(express.static('public'));
+
 //libraries
 const multer = require("multer");
 const cloudinary = require('cloudinary').v2
@@ -28,46 +32,31 @@ cloudinary.config({
 });
 //upload variable
 const upload = multer();
-app.use(express.static('public'));
-function onHttpStart() {
-  console.log("Express http server listening on: " + HTTP_PORT);
-  return new Promise(function (res, req) {
-    data
-      .initialize()
-      .then(function (data) {
-        console.log(data);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
-  });
-}
-app.use(express.static("public"));
+
 // GET ABOUT
-app.get("/", (req, res) => {
- res.redirect('/about');
-});
-app.get("/about", function (req, res) {
-  res.sendFile(path.join(__dirname, "views/about.html"));
+app.get('/', (req, res) => {
+  res.redirect("/about");
 });
 
-//BLOGS
-app.get("blog-service", function (req, res) {
-  data
-    .getPublishedPosts()
-    .then(function (data) {
+//about
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/about.html"))
+});
+
+//blog
+app.get('/blog', (req,res)=>{
+  blogData.getPublishedPosts().then((data=>{
       res.json(data);
-    })
-    .catch(function (err) {
-      res.json({ message: err });
-    });
+  })).catch(err=>{
+      res.json({message: err});
+  });
 });
 
 app.get('/post/:value', (req, res) => {
  service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
 //GET POSTS
-app.get("data/posts", function (req, res) {
+app.get('/posts', function (req, res) {
   data
     .getAllPosts()
     .then(function (data) {
@@ -79,7 +68,7 @@ app.get("data/posts", function (req, res) {
 });
 
 //GET CATEGORIES
-app.get("/data/categories", function (req, res) {
+app.get('/categories', function (req, res) {
   data
     .getCategories()
     .then(function (data) {
@@ -91,7 +80,7 @@ app.get("/data/categories", function (req, res) {
 });
 
 //GET /POST/ADD
-app.get("/posts/add", function (req, res) {
+app.get('/posts/add', function (req, res) {
  res.sendFile(path.join(__dirname, "views/addPost.html"));
 });
 
