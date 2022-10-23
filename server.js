@@ -56,7 +56,7 @@ app.get('/post/:value', (req, res) => {
  service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
 //GET POSTS
-app.get('/posts', function (req, res) {
+app.get('data/posts', function (req, res) {
   data
     .getAllPosts()
     .then(function (data) {
@@ -68,7 +68,7 @@ app.get('/posts', function (req, res) {
 });
 
 //GET CATEGORIES
-app.get('/categories', function (req, res) {
+app.get('data/categories', function (req, res) {
   data
     .getCategories()
     .then(function (data) {
