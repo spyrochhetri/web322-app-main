@@ -53,16 +53,16 @@ app.get('/blog', (req,res)=>{
 });
 
 app.get('/post/:value', (req, res) => {
-  service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  blogData.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
 
 app.get('/posts', (req, res) => {
   if (req.query.category) {
-      service.getPostsByCategory(req.query.category).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+      blogData.getPostsByCategory(req.query.category).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
   } else if (req.query.minDate) {
-      service.getPostsByMinDate(req.query.minDate).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+      blogData.getPostsByMinDate(req.query.minDate).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
   } else {
-      service.getAllPosts().then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+      blogData.getAllPosts().then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
   }
 })
 
