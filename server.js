@@ -68,7 +68,7 @@ app.get('.data/posts', function (req, res) {
 });
 
 //GET CATEGORIES
-app.get('.data/categories', function (req, res) {
+app.get('categories', function (req, res) {
   data
     .getCategories()
     .then(function (data) {
