@@ -77,7 +77,7 @@ app.get('/categories', (req,res)=>{
 
 //GET /POST/ADD
 app.get('/posts/add', function (req, res) {
- res.sendFile(path.join(__dirname, "views/addPost.html"));
+ res.file(path.join(__dirname, "views/addPost.html"));
 });
 
 
