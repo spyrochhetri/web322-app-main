@@ -66,16 +66,14 @@ app.get('/posts', (req,res)=>{
 });
 
 //GET CATEGORIES
-app.get('/categories.json', function (req, res) {
-  data
-    .getCategories()
-    .then(function (data) {
+app.get('/categories', (req,res)=>{
+  blogData.getCategories().then((data=>{
       res.json(data);
-    })
-    .catch(function (err) {
-      res.json({ message: err });
-    });
+  })).catch(err=>{
+      res.json({message: err});
+  });
 });
+
 
 //GET /POST/ADD
 app.get('/posts/add', function (req, res) {
