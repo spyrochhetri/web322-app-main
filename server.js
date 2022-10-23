@@ -76,10 +76,14 @@ app.get('/categories', (req,res)=>{
 
 
 //GET /POST/ADD
-app.get('/posts/add', function (req, res) {
- res.file(path.join(__dirname, "views/addPost.html"));
-});
+app.get('/posts/add', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views/addPost.html'));
+})
 
+app.listen(port, () => {
+  console.log(`Listening on http://localhost:${port}`);
+  service.initialize().then((data) => console.log(data)).catch((err) => console.log(err));
+})
 
 // Adding POST routes
 app.post('/posts/add', upload.single("featureImage"), (req, res) => {
