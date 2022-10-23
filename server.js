@@ -55,20 +55,18 @@ app.get('/blog', (req,res)=>{
 app.get('/post/:value', (req, res) => {
  service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
+
 //GET POSTS
-app.get('./data/posts', function (req, res) {
-  data
-    .getAllPosts()
-    .then(function (data) {
+app.get('/posts', (req,res)=>{
+  blogData.getAllPosts().then((data=>{
       res.json(data);
-    })
-    .catch(function (err) {
-      res.json({ message: err });
-    });
+  })).catch(err=>{
+      res.json({message: err});
+  });
 });
 
 //GET CATEGORIES
-app.get('categories.json', function (req, res) {
+app.get('/categories.json', function (req, res) {
   data
     .getCategories()
     .then(function (data) {
