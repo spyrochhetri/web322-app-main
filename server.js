@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@Jahanvi220104 
+Jahanvi220104
+/
+web322-app-main
+Public
+Code
+Issues
+Pull requests
+1
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+web322-app-main/server.js /
+@Jahanvi220104
+Jahanvi220104 Add files via upload
+Latest commit 253810f 12 minutes ago
+ History
+ 1 contributor
+123 lines (99 sloc)  3.85 KB
+
  /*********************************************************************************
 *  WEB322 – Assignment 02
 *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part 
@@ -11,30 +41,29 @@
 *  GitHub Repository URL: https://github.com/Jahanvi220104/web322-app.git
 *updated now
 ********************************************************************************/ 
-
 const express = require('express');
-const path = require('path');
-const service = require('./blog-service');
+const blogData = require("./blog-service");
+const path = require("path");
+const app = express();
 
+
+const HTTP_PORT = process.env.PORT || 8080;
+
+app.use(express.static('public'));
+
+//libraries
 const multer = require("multer");
 const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
 
 cloudinary.config({
-  cloud_name: 'dga12xwb2',
-  api_key: '694932861513843',
-  api_secret: '8kE3Cp8pA7PAe4RzWO4ICj9jO1Y',
-  secure: true
+   cloud_name: 'dga12xwb2',
+   api_key: '694932861513843',
+   api_secret: '8kE3Cp8pA7PAe4RzWO4ICj9jO1Y',
+   secure: true
 });
-
-const upload = multer(); // no { storage: storage } since we are not using disk storage
-
-
-const app = express();
-
-const port = process.env.port || 8080;
-
-app.use(express.static('public'));
+//upload variable
+const upload = multer();
 
 app.get('/', (req, res) => {
     res.redirect('/about');
