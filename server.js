@@ -12,7 +12,7 @@
 *updated now
 ********************************************************************************/ 
 const express = require('express');
-const blogData = require("./blog-service");
+const service = require("./blog-service");
 const path = require("path");
 const app = express();
 
