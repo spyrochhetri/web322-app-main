@@ -54,7 +54,7 @@ app.get('/blog', (req,res)=>{
   });
 });
 
-app.get('/post/:value', (req, res) => {
+app.get('/post/:id', (req, res) => {
   blogData.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
 })
 
