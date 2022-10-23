@@ -93,47 +93,51 @@ app.get('/posts/add', (req, res) => {
 
 // Adding POST routes
 app.post('/posts/add', upload.single("featureImage"), (req, res) => {
- if(req.file){
-     let streamUpload = (req) => {
-         return new Promise((resolve, reject) => {
-             let stream = cloudinary.uploader.upload_stream(
-                 (error, result) => {
-                     if (result) {
-                         resolve(result);
-                     } else {
-                         reject(error);
-                     }
-                 }
-             );
- 
-             streamifier.createReadStream(req.file.buffer).pipe(stream);
-         });
-     };
- 
-     async function upload(req) {
-         let result = await streamUpload(req);
-         console.log(result);
-         return result;
-     }
- 
-     upload(req).then((uploaded)=>{
-         processPost(uploaded.url);
-     });
- } else {
-     processPost("");
- }
- function processPost(imageUrl){
-     req.body.featureImage = imageUrl;
-     const postData = {
-         "body": req.body.body,
-         "title": req.body.title,
-         "postDate": new Date().toISOString().split('T')[0],
-         "category": req.body.category,
-         "featureImage": imageUrl,
-         "published": req.body.published,
-     }
-     blogData.addPost(postData).then(data => res.redirect('/posts')).catch(err => res.json(`message: ${err}`));
- }
+  if(req.file){
+      let streamUpload = (req) => {
+          return new Promise((resolve, reject) => {
+              let stream = cloudinary.uploader.upload_stream(
+                  (error, result) => {
+                      if (result) {
+                          resolve(result);
+                      } else {
+                          reject(error);
+                      }
+                  }
+              );
+  
+              streamifier.createReadStream(req.file.buffer).pipe(stream);
+          });
+      };
+  
+      async function upload(req) {
+          let result = await streamUpload(req);
+          console.log(result);
+          return result;
+      }
+  
+      upload(req).then((uploaded)=>{
+          processPost(uploaded.url);
+      });
+  } else {
+      processPost("");
+  }
+
+  function processPost(imageUrl){
+      req.body.featureImage = imageUrl;
+
+      const postData = {
+          "body": req.body.body,
+          "title": req.body.title,
+          "postDate": new Date().toISOString().split('T')[0],
+          "category": req.body.category,
+          "featureImage": imageUrl,
+          "published": req.body.published,
+      }
+
+      blogData.addPost(postData).then(data => res.redirect('/posts')).catch(err => res.json(`message: ${err}`));
+  }
+
 })
 //ERROR
 app.use(function (req, res) {
