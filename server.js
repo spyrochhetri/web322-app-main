@@ -53,7 +53,17 @@ app.get('/blog', (req,res)=>{
 });
 
 app.get('/post/:value', (req, res) => {
- service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  service.getPostById(req.params.value).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+})
+
+app.get('/posts', (req, res) => {
+  if (req.query.category) {
+      service.getPostsByCategory(req.query.category).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  } else if (req.query.minDate) {
+      service.getPostsByMinDate(req.query.minDate).then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  } else {
+      service.getAllPosts().then(data => res.send(data)).catch(err => res.json(`message: ${err}`));
+  }
 })
 
 //GET POSTS
@@ -80,10 +90,6 @@ app.get('/posts/add', (req, res) => {
   res.sendFile(path.join(__dirname, 'views/addPost.html'));
 })
 
-app.listen(port, () => {
-  console.log(`Listening on http://localhost:${port}`);
-  service.initialize().then((data) => console.log(data)).catch((err) => console.log(err));
-})
 
 // Adding POST routes
 app.post('/posts/add', upload.single("featureImage"), (req, res) => {
