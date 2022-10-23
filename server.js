@@ -146,11 +146,6 @@ app.post('/posts/add', upload.single("featureImage"), (req, res) => {
   }
 
 })
-//ERROR
-app.use(function (req, res) {
- res.status(404).sendFile(path.join(__dirname, "Page Not Found"));
-});
-
 blogData.initialize().then(()=>{
   app.listen(HTTP_PORT, () => { 
       console.log('server listening on: ' + HTTP_PORT); 
